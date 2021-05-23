@@ -17,6 +17,10 @@ namespace DataEntity
         public string SenderAddress { get; set; }
         public string ReceiverAddress { get; set; }
 
+       // public  map<string, bool> ShipProperties { get; set; }
+
+        public int  Remaining { get; set; }
+
         public DateTime DepartureDate { get; set; }
 
 
