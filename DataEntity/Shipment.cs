@@ -14,8 +14,12 @@ namespace DataEntity
         public string Title { get; set; }
         public bool IsActive { get; set; }
         public string ShippingNote { get; set; }
-       
+        public string SenderAddress { get; set; }
+        public string ReceiverAddress { get; set; }
+
         public DateTime DepartureDate { get; set; }
+
+
 
 
         public ShippmentPackage ShippmentPackage { get; set; }

@@ -1,5 +1,6 @@
 ﻿using BusinessLayer.Concrete.HesapServices;
 using DataEntity.DTO;
+using DataEntity.Enums;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -22,9 +23,14 @@ namespace StudentInfo.Controllers
         [HttpPost("cargoEstimated")]
                public IActionResult CargoEstimate(RsShipmentDto rsShipmentDto)
                {
+          
                    var result=  _cargoCashCalculate.CalculateShipp(rsShipmentDto.SenderAddress,rsShipmentDto.ReceiverAddress,rsShipmentDto.Weight,rsShipmentDto.Size);
 
-            return Ok(result);
+                    return Ok(result);
+
+
+
+
                }
     }
 }
