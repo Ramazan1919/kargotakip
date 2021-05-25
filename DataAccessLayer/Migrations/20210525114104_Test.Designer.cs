@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccessLayer.Migrations
 {
     [DbContext(typeof(StdContext))]
-    [Migration("20210522203844_trackingId-String")]
-    partial class trackingIdString
+    [Migration("20210525114104_Test")]
+    partial class Test
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -32,6 +32,8 @@ namespace DataAccessLayer.Migrations
                     b.Property<bool>("IsActive");
 
                     b.Property<string>("ReceiverAddress");
+
+                    b.Property<int>("Remaining");
 
                     b.Property<string>("SenderAddress");
 
@@ -56,11 +58,7 @@ namespace DataAccessLayer.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("ReceiverAddress");
-
                     b.Property<double>("RemainigDistance");
-
-                    b.Property<string>("SenderAddress");
 
                     b.Property<int>("Size");
 

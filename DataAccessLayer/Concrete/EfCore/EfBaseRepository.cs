@@ -38,9 +38,13 @@ namespace DataAccessLayer.Concrete.EfCore
             return true;
         }
 
-        public TEntity Get(Expression<Func<TEntity, bool>> filter = null)
+        public TEntity Get(Expression<Func<TEntity, bool>> filter = null, string include="")
         {
-            return _context.Set<TEntity>().SingleOrDefault(filter);
+            if (string.IsNullOrEmpty(include))
+            {
+                return _context.Set<TEntity>().SingleOrDefault(filter);
+            }
+            return _context.Set<TEntity>().Include(include).SingleOrDefault(filter);
         }
 
         public List<TEntity> GetList(Expression<Func<TEntity, bool>> filter = null)

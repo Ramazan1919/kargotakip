@@ -87,6 +87,22 @@ namespace BusinessLayer.Concrete
             return new List<T>();
         }
 
+        public T GetFilter(Expression<Func<T, bool>> filter, string include="")
+        {
+            try
+            {
+                if (filter != null)
+                {
+                    return _repository.Get(filter, include);
+                }
+            }
+            catch (Exception ex)
+            {
+                //hata logla
+            }
+            return null;
+        }
+
         public List<T> Search(Expression<Func<T, bool>> filter)
         {
             try

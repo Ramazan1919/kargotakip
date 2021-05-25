@@ -8,8 +8,8 @@ namespace DataAccessLayer.Abstract
 {
     public interface IRepository<T> where T : class, IEntity
     {
-        T Get(Expression<Func<T, bool>> filter = null);
-        
+        T Get(Expression<Func<T, bool>> filter = null, string include="");
+
         List<T> GetList(Expression<Func<T, bool>> filter = null);
 
         bool Add(T entity);

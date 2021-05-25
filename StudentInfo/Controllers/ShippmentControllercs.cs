@@ -12,7 +12,7 @@ namespace StudentInfo.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ShippmentController: ControllerBase
+    public class ShippmentController : ControllerBase
     {
         private IShippmentServices _shippmentServices;
         public ShippmentController(IShippmentServices shippmentServices)
@@ -20,6 +20,7 @@ namespace StudentInfo.Controllers
             _shippmentServices = shippmentServices;
         }
         [HttpPost]
+        [Obsolete]
         public ActionResult Add([FromBody] Shipment shipment)
         {
             shipment.TrackingId = ShortId.Generate(true, false, 11);
@@ -50,7 +51,7 @@ namespace StudentInfo.Controllers
             {
                 if (id > 0)
                 {
-                    var model = _shippmentServices.Get(id);
+                    var model = _shippmentServices.GetFilter(x => x.Id == id, "ShippmentPackage");
                     return Ok(model);
                 }
 

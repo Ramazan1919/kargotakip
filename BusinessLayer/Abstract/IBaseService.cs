@@ -10,6 +10,7 @@ namespace BusinessLayer.Abstract
     public interface IBaseService<T> where T : IEntity
     {
         T Get(int id);
+         T GetFilter(Expression<Func<T, bool>> filter, string include = "");
 
         List<T> GetAll();
 
