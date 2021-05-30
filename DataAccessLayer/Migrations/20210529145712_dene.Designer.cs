@@ -4,14 +4,16 @@ using DataAccessLayer.Concrete.EfCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DataAccessLayer.Migrations
 {
     [DbContext(typeof(StdContext))]
-    partial class StdContextModelSnapshot : ModelSnapshot
+    [Migration("20210529145712_dene")]
+    partial class dene
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -26,8 +28,6 @@ namespace DataAccessLayer.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<DateTime>("DepartureDate");
-
-                    b.Property<DateTime>("EstimatedArrivalDate");
 
                     b.Property<bool>("IsActive");
 
@@ -58,15 +58,13 @@ namespace DataAccessLayer.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<double>("RemainigDistance");
+
                     b.Property<int>("Size");
 
+                    b.Property<double>("TotalDistance");
+
                     b.Property<int>("Weight");
-
-                    b.Property<bool>("isDanger");
-
-                    b.Property<bool>("isLiquid");
-
-                    b.Property<bool>("isPet");
 
                     b.HasKey("Id");
 

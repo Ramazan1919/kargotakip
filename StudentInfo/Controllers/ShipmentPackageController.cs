@@ -1,4 +1,5 @@
 ﻿using BusinessLayer.Abstract;
+using BusinessLayer.Concrete.HesapServices;
 using DataEntity;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -28,8 +29,18 @@ namespace StudentInfo.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    var result = _shippmentPackageServices.Add(shippmentPackage);
-                    return Ok(result);
+                    var valid = Validator.ValidateCargo(shippmentPackage.isPet, shippmentPackage.isLiquid, shippmentPackage.isDanger);
+                    if (valid.IsSuccess)
+                    {
+                        var result = _shippmentPackageServices.Add(shippmentPackage);
+                        return Ok(result);
+                    }
+                    else
+                    {
+                        return NotFound(valid);
+                    }
+
+                    
                 }
 
             }

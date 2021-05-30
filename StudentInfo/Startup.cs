@@ -44,7 +44,8 @@ namespace StudentInfo
             services.AddTransient<IShippmentServices, ShippmentManager>();
             services.AddTransient<IShippmentPackageServices, ShipmentPackageManager>();
             services.AddTransient<IWeightAndSizeServices, WeightAndSizeManager>();
-            services.AddTransient<CargoCashCalculate>();
+            services.AddTransient<ShippingCalculator>();
+            services.AddTransient<TrackingResponse>();
             
             
 

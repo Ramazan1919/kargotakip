@@ -1,5 +1,7 @@
 ﻿using BusinessLayer.Abstract;
+using BusinessLayer.Concrete.HesapServices;
 using DataEntity;
+using DataEntity.DTO;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using shortid;
@@ -15,32 +17,79 @@ namespace StudentInfo.Controllers
     public class ShippmentController : ControllerBase
     {
         private IShippmentServices _shippmentServices;
-        public ShippmentController(IShippmentServices shippmentServices)
+        private IShippmentPackageServices _shippmentPackageServices;
+        private TrackingResponse _trackingResponse;
+        public ShippmentController(IShippmentServices shippmentServices, IShippmentPackageServices shippmentPackageServices, TrackingResponse trackingResponse)
         {
             _shippmentServices = shippmentServices;
+            _shippmentPackageServices = shippmentPackageServices;
+            _trackingResponse = trackingResponse;
         }
         [HttpPost]
         [Obsolete]
-        public ActionResult Add([FromBody] Shipment shipment)
+        public ActionResult Add([FromBody] ShipmentDto shipmentDto)
         {
-            shipment.TrackingId = ShortId.Generate(true, false, 11);
-            try
+
+            var valid = Validator.ValidateCargo(shipmentDto.ShipmentPackageDto.isPet, shipmentDto.ShipmentPackageDto.isLiquid, shipmentDto.ShipmentPackageDto.isDanger);
+
+            if (valid.IsSuccess)
             {
-                if (ModelState.IsValid)
+                var modelPackage = new ShippmentPackage
                 {
-                    var result = _shippmentServices.Add(shipment);
-                    return Ok(result);
+                    
+                   isPet=shipmentDto.ShipmentPackageDto.isPet,
+                   isDanger= shipmentDto.ShipmentPackageDto.isDanger,
+                   isLiquid= shipmentDto.ShipmentPackageDto.isLiquid,
+                   Weight = shipmentDto.ShipmentPackageDto.Weight,
+                   Size = shipmentDto.ShipmentPackageDto.Size,
+        
+                };
+                _shippmentPackageServices.Add(modelPackage);
+
+                
+
+
+                //shipmentDto.ShippmentPackageId = shipmentDto.ShippmentPackage.Id;
+                //shipmentDto.DepartureDate = new DateTime();
+                //shipmentDto.EstimatedArrivalDate = new DateTime(); shipmentDto.TrackingId = ShortId.Generate(true, false, 11);// hesaplanan saat gelecek
+
+                
+
+                
+                try
+                {
+
+
+                    if (ModelState.IsValid)
+                    {
+                        var modelShipment = new Shipment
+                        {
+                            IsActive = true,
+                            ShippmentPackageId = modelPackage.Id,
+                            ReceiverAddress = shipmentDto.receiverAddress,
+                            Remaining = 100,
+                            SenderAddress = shipmentDto.senderAddress,
+                            ShippingNote = shipmentDto.shippingNote,
+                            DepartureDate = new DateTime(),
+                            Title = shipmentDto.title,
+                            TrackingId = ShortId.Generate(true, false, 11),
+                            EstimatedArrivalDate = new DateTime()
+
+                        };
+
+                        var result = _shippmentServices.Add(modelShipment);
+                        return Ok(result);
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    return NotFound(ex);
                 }
 
             }
-            catch (Exception ex)
-            {
-                // return ex.Message;
-            }
 
-
-
-            return BadRequest();
+                return NotFound(valid);
         }
 
 
@@ -64,5 +113,30 @@ namespace StudentInfo.Controllers
             return BadRequest();
 
         }
+
+
+        [HttpGet("trackId/{id}")]
+        public ActionResult GetWithTrackingId(string id)
+        {
+            try
+            {
+                if (!String.IsNullOrEmpty(id))
+                {
+                    var model = _trackingResponse.getShipment(id);
+                    if(model != null)
+                        return Ok(model);
+                    return NotFound("model null");
+                }
+
+            }
+            catch (Exception ex)
+            {
+                // return ex.Message;
+            }
+
+            return BadRequest();
+
+        }
+
     }
 }

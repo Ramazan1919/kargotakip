@@ -14,17 +14,17 @@ namespace StudentInfo.Controllers
     [ApiController]
     public class CargoEstimatedController : ControllerBase
     {
-        private readonly CargoCashCalculate _cargoCashCalculate;
-        public CargoEstimatedController(CargoCashCalculate cargoCashCalculate)
+        private readonly ShippingCalculator _cargoCashCalculate;
+        public CargoEstimatedController(ShippingCalculator cargoCashCalculate)
         {
             _cargoCashCalculate = cargoCashCalculate;
         }
 
-        [HttpPost("cargoEstimated")]
-               public IActionResult CargoEstimate(RsShipmentDto rsShipmentDto)
+        [HttpPost]
+        public IActionResult CargoEstimate(RsEstimateShipmentDto rsShipmentDto)
                {
           
-                   var result=  _cargoCashCalculate.CalculateShipp(rsShipmentDto.SenderAddress,rsShipmentDto.ReceiverAddress,rsShipmentDto.Weight,rsShipmentDto.Size);
+                   var result=  _cargoCashCalculate.CalculateShip(rsShipmentDto.SenderAddress,rsShipmentDto.ReceiverAddress,rsShipmentDto.Weight,rsShipmentDto.Size);
 
                     return Ok(result);
 

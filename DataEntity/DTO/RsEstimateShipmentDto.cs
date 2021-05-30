@@ -5,7 +5,7 @@ using System.Text;
 
 namespace DataEntity.DTO
 {
-    public class RsShipmentDto
+    public class RsEstimateShipmentDto
     {
         
         public string SenderAddress { get; set; }

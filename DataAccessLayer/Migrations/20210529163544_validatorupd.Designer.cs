@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccessLayer.Migrations
 {
     [DbContext(typeof(StdContext))]
-    [Migration("20210525114104_Test")]
-    partial class Test
+    [Migration("20210529163544_validatorupd")]
+    partial class validatorupd
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -65,6 +65,12 @@ namespace DataAccessLayer.Migrations
                     b.Property<double>("TotalDistance");
 
                     b.Property<int>("Weight");
+
+                    b.Property<bool>("isDanger");
+
+                    b.Property<bool>("isLiquid");
+
+                    b.Property<bool>("isPet");
 
                     b.HasKey("Id");
 

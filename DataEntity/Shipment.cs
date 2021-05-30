@@ -22,6 +22,8 @@ namespace DataEntity
         public int  Remaining { get; set; }
 
         public DateTime DepartureDate { get; set; }
+        public DateTime EstimatedArrivalDate { get; set; }
+
 
 
 

@@ -8,22 +8,22 @@ using System.Text;
 
 namespace BusinessLayer.Concrete.HesapServices
 {
-    public class CargoCashCalculate
+    public class ShippingCalculator
     {
         private readonly List<WeightAndSize> _weightAndSizeList;
 
-        public CargoCashCalculate(IWeightAndSizeServices weightAndSizeServices )
+        public ShippingCalculator(IWeightAndSizeServices weightAndSizeServices )
         {
 
             _weightAndSizeList = weightAndSizeServices.GetAll();
         }
 
-        public RsShipmentDto CalculateShipp(string SenderAddress,string ReceiverAddress, int Weight, ShipSize Size)
+        public RsEstimateShipmentDto CalculateShip(string SenderAddress,string ReceiverAddress, int Weight, ShipSize Size)
         {
             var distance = 100;
             var tablokarsiligi = _weightAndSizeList.Find(x => x.WeightMin <= Weight && x.WeightMax >= Weight && x.Size==Size).Price;
             var cash = tablokarsiligi * Weight * distance;
-            var result = new RsShipmentDto
+            var result = new RsEstimateShipmentDto
             {
                 Price = cash,
                 Weight = Weight,
