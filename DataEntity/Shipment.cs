@@ -23,6 +23,9 @@ namespace DataEntity
 
         public DateTime DepartureDate { get; set; }
         public DateTime EstimatedArrivalDate { get; set; }
+        public decimal Price { get; set; }
+
+        public string RemainingTime { get; set; }
 
 
 

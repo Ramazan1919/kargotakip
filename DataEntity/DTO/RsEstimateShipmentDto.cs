@@ -15,7 +15,9 @@ namespace DataEntity.DTO
         public ShipSize Size { get; set; }
 
         public decimal Price { get; set; }
-      
+
+        public int Distance { get; set; }
+
 
     }
 }
