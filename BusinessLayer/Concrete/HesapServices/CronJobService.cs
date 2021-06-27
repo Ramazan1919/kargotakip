@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace BusinessLayer.Concrete.HesapServices
 {
     public abstract class CronJobService : IHostedService, IDisposable
-    {<
+    {
 
         private System.Timers.Timer _timer;
         private readonly CronExpression _expression;

@@ -85,6 +85,7 @@ namespace StudentInfo.Controllers
                         };
 
                         var result = _shippmentServices.Add(modelShipment);
+                        result.Message=modelShipment.TrackingId;
                         return Ok(result);
                     }
 
