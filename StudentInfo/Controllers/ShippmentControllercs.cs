@@ -18,12 +18,15 @@ namespace StudentInfo.Controllers
     {
         private IShippmentServices _shippmentServices;
         private IShippmentPackageServices _shippmentPackageServices;
+        private readonly ShippingCalculator  _shippingCalculator;
         private TrackingResponse _trackingResponse;
-        public ShippmentController(IShippmentServices shippmentServices, IShippmentPackageServices shippmentPackageServices, TrackingResponse trackingResponse)
+
+        public ShippmentController(ShippingCalculator shippingCalculator, IShippmentServices shippmentServices, IShippmentPackageServices shippmentPackageServices, TrackingResponse trackingResponse)
         {
             _shippmentServices = shippmentServices;
             _shippmentPackageServices = shippmentPackageServices;
             _trackingResponse = trackingResponse;
+            _shippingCalculator = shippingCalculator;
         }
         [HttpPost]
         [Obsolete]
@@ -62,22 +65,27 @@ namespace StudentInfo.Controllers
 
                     if (ModelState.IsValid)
                     {
+                        var resultPrice = _shippingCalculator.CalculateShip(shipmentDto.senderAddress,shipmentDto.receiverAddress,shipmentDto.ShipmentPackageDto.Weight,shipmentDto.ShipmentPackageDto.Size);
+                        var rTime= _shippingCalculator.CalculateTime(resultPrice.Distance);
+                        var msg = _shippingCalculator.calculateRemainingTime(rTime);
                         var modelShipment = new Shipment
                         {
                             IsActive = true,
                             ShippmentPackageId = modelPackage.Id,
                             ReceiverAddress = shipmentDto.receiverAddress,
-                            Remaining = 100,
+                            Remaining = resultPrice.Distance,
                             SenderAddress = shipmentDto.senderAddress,
                             ShippingNote = shipmentDto.shippingNote,
-                            DepartureDate = new DateTime(),
+                            DepartureDate = DateTime.Now,
                             Title = shipmentDto.title,
                             TrackingId = ShortId.Generate(true, false, 11),
-                            EstimatedArrivalDate = new DateTime()
-
+                            EstimatedArrivalDate = DateTime.Now.AddHours(rTime),
+                            Price = resultPrice.Price,
+                            RemainingTime= msg
                         };
 
                         var result = _shippmentServices.Add(modelShipment);
+                        result.Message=modelShipment.TrackingId;
                         return Ok(result);
                     }
 

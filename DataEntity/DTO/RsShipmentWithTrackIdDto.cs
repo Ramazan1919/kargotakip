@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DataEntity.Enums;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -19,7 +20,7 @@ namespace DataEntity.DTO
     public class RsShipmentPackageDto
         {
         public int Weight { get; set; }
-        public int Size { get; set; }
+        public ShipSize Size { get; set; }
     }
 
 }

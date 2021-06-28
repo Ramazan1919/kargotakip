@@ -15,12 +15,61 @@ namespace BusinessLayer.Concrete.HesapServices
     public class ShippingCalculator
     {
         private readonly List<WeightAndSize> _weightAndSizeList;
+        private readonly IShippmentServices _shippmentServices;
 
-        public ShippingCalculator(IWeightAndSizeServices weightAndSizeServices)
+        public ShippingCalculator(IShippmentServices shippmentService, IWeightAndSizeServices weightAndSizeServices)
         {
 
             _weightAndSizeList = weightAndSizeServices.GetAll();
+            _shippmentServices = shippmentService;
         }
+
+        public double CalculateTime(int distance)
+        {
+
+            return distance / 20;
+
+
+        }
+
+        public void updateCargos()
+        {
+            List<Shipment> shipments = _shippmentServices.GetAll();//new List<Shipment>();
+
+
+            foreach (var item in shipments)
+            {
+                if (item.IsActive)
+                {
+                    item.Remaining = item.Remaining - 20;
+                    if (item.Remaining < 0)
+                    {
+                        item.IsActive = false;
+                    }
+                    var rTime = CalculateTime( item.Remaining );
+                    var msg = calculateRemainingTime(rTime);
+                    _shippmentServices.Update(item);
+                }
+            }
+                
+        }
+
+        public string calculateRemainingTime(double time)
+        {
+            
+            string msg = "";
+            if (time > 24)
+            {
+                int kalan = Convert.ToInt32(time % 24);
+                int mod = Convert.ToInt32(time / 24);
+                msg = mod + " day " + kalan + " hour";
+            }
+            else
+                msg = time + " hour";
+
+            return msg;
+        }
+
 
         public RsEstimateShipmentDto CalculateShip(string senderAddress, string receiverAddress, int Weight, ShipSize Size)
         {
@@ -38,7 +87,8 @@ namespace BusinessLayer.Concrete.HesapServices
                 Weight = Weight,
                 ReceiverAddress = senderAddress,
                 SenderAddress = receiverAddress,
-                Size = Size
+                Size = Size,
+                Distance = Convert.ToInt32(distance)
             };
             return result;
 

@@ -17,6 +17,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using StudentInfo.Extentions;
 
 namespace StudentInfo
 {
@@ -44,13 +45,17 @@ namespace StudentInfo
             services.AddTransient<IShippmentServices, ShippmentManager>();
             services.AddTransient<IShippmentPackageServices, ShipmentPackageManager>();
             services.AddTransient<IWeightAndSizeServices, WeightAndSizeManager>();
+
             services.AddTransient<ShippingCalculator>();
             services.AddTransient<TrackingResponse>();
             
-            
-
-
             services.AddCors();
+
+            services.AddCronJob<MyCronJob>(c =>
+            {
+                c.TimeZoneInfo = TimeZoneInfo.Local;
+                c.CronExpression = @"* * * * *";
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -4,14 +4,16 @@ using DataAccessLayer.Concrete.EfCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DataAccessLayer.Migrations
 {
     [DbContext(typeof(StdContext))]
-    partial class StdContextModelSnapshot : ModelSnapshot
+    [Migration("20210625195314_shippiceeadded")]
+    partial class shippiceeadded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -36,8 +38,6 @@ namespace DataAccessLayer.Migrations
                     b.Property<string>("ReceiverAddress");
 
                     b.Property<int>("Remaining");
-
-                    b.Property<string>("RemainingTime");
 
                     b.Property<string>("SenderAddress");
 
