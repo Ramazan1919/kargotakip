@@ -31,7 +31,7 @@ namespace BusinessLayer.Concrete.HesapServices
             var weightSize = _weightAndSizeList.Find(x => x.WeightMin <= Weight && x.WeightMax >= Weight && x.Size == Size);
 
             var tablokarsiligi = weightSize != null ? weightSize.Price : 0;
-            double cash = Convert.ToDouble(tablokarsiligi) * Weight * distance;
+            double cash = Convert.ToDouble(tablokarsiligi) * Weight * (distance/100.0);
             var result = new RsEstimateShipmentDto
             {
                 Price = Convert.ToDecimal(cash),
