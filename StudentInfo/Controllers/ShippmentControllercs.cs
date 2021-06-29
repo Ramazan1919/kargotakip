@@ -80,7 +80,7 @@ namespace StudentInfo.Controllers
                             Title = shipmentDto.title,
                             TrackingId = ShortId.Generate(true, false, 11),
                             EstimatedArrivalDate = DateTime.Now.AddHours(rTime),
-                            Price = resultPrice.Price,
+                            Price = resultPrice.Price/100,
                             RemainingTime= msg
                         };
 
